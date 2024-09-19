@@ -1,0 +1,51 @@
+# .NET Core and Visual Studio
+*.dll
+*.exe
+*.pdb
+*.obj
+*.log
+*.swp
+*.suo
+*.user
+*.userosscache
+*.suo
+*.tlog
+*.vscode
+.vs/
+bin/
+obj/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# User-specific files
+*.DS_Store
+*.sublime-workspace
+*.sublime-project
+
+# Rider
+.idea/
+
+# ASP.NET
+*.db
+*.sqlite
+*.sdf
+*.sqlite3
+*.mdf
+*.ldf
+*.sql
+
+# Configuration
+appsettings.Development.json
+appsettings.Production.json
+secrets.json
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+
+# Logs
+*.log
+
+# Local History
+.localhistory/
