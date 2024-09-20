@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.Repository.Inteface
+namespace Authentication.Repository.Implementation
 {
-   public interface IContributor
+    internal class AuthorRepository
     {
-        bool ()
     }
 }

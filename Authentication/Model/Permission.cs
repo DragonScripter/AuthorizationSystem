@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Authentication.Model
 {
-    public static class Permission
+    public class Permission
     {
         public const string Create = "Create";
         public const string Read = "Read";
         public const string Update = "Update";
         public const string Delete = "Delete";
+        public const string Publish = "Publish";
 
         private static readonly Dictionary<string, List<string>> RolePermission = new Dictionary<string, List<string>>
         {
@@ -20,7 +21,16 @@ namespace Authentication.Model
                     Create,
                     Read,
                     Update,
-                    Delete
+                    Delete,
+                    Publish
+
+                }
+            },
+            {"Author", new List<string>
+                {
+                    Create,
+                    Publish,
+                    Read
                 }
             },
             {"Editor", new List<string>
@@ -34,12 +44,6 @@ namespace Authentication.Model
                     Create,
                     Read
                 }
-            },
-            {"Subscriber", new List<string>
-                {
-                    Read
-                }
-            
             }
         };
 

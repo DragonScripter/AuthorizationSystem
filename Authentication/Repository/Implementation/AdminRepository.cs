@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.Repository.Inteface
+namespace Authentication.Repository.Implementation
 {
-    public interface IAdminAuth
+    internal class AdminRepository
     {
-
     }
 }
