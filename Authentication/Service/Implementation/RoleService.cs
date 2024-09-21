@@ -1,20 +1,48 @@
 ﻿using Authentication.Model;
+using Authentication.Service.Interface;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.Service
+namespace Authentication.Service.Implementation
 {
-    public class RoleService
+    public class RoleService : IRoleService
     {
-        RoleManager<RoleEF> _roleManager;
+        RoleManager<IdentityRole> _roleManager;
 
-        public RoleService(RoleManager<RoleEF> roleManager) 
+        public RoleService(RoleManager<IdentityRole> roleManager)
         {
             _roleManager = roleManager;
         }
+
+        public async Task<bool> addClaimToRoleAsync(string roles, string claimType, string value)
+        {
+            var role = await _roleManager.FindByNameAsync(roles);
+            if (roles == null) 
+            {
+                throw new Exception("Role not found");
+            }
+
+            var claim = await _roleManager.GetClaimsAsync(role);
+
+            if (!claim.Any(c => c.Type != claimType && c.Value != value)) 
+            {
+                var claims = new Claim(claimType, value);
+                var result = await _roleManager.AddClaimAsync(role, claims);
+
+                return result.Succeeded;
+            }
+
+            return false;
+        }
+
+        //public Task<bool> PutClaimsToRoleAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
