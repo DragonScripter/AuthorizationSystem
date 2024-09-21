@@ -22,7 +22,7 @@ namespace Authentication.Service.Implementation
         public async Task<bool> addClaimToRoleAsync(string roles, string claimType, string value)
         {
             var role = await _roleManager.FindByNameAsync(roles);
-            if (roles == null) 
+            if (role == null) 
             {
                 throw new Exception("Role not found");
             }
@@ -40,7 +40,12 @@ namespace Authentication.Service.Implementation
             return false;
         }
 
-        //public Task<bool> PutClaimsToRoleAsync()
+        //public Task<bool> CheckPermForRolesAsync(string roles, string claimType, string Value)
+        //{
+            
+        //}
+
+        //public Task<bool> GetClaimsForRolesAsync(string roles)
         //{
         //    throw new NotImplementedException();
         //}
