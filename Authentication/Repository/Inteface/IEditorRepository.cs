@@ -10,7 +10,7 @@ namespace Authentication.Repository.Inteface
     public interface IEditorRepository
     {
         Task<bool> userAuthAsync(string name, string password);
-        Task<AppUser> GetEditorByNameAsync(string name);
+        Task<AppUser?> GetEditorByNameAsync(string name);
         Task<bool> CreateEditorAsync(AppUser Editor);
         Task<IEnumerable<AppUser>> GetAllEditor();
 
