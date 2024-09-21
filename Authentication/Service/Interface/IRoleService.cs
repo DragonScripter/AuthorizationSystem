@@ -8,7 +8,8 @@ namespace Authentication.Service.Interface
 {
     public interface IRoleService
     {
-        Task<bool> addClaimToRoleAsync(string role, string claim, string type);
-        Task<bool> PutClaimsToRoleAsync();
+        Task<bool> addClaimToRoleAsync(string roles, string claimType, string value);
+        Task<bool> GetClaimsForRolesAsync(string roles);
+        Task<bool> CheckPermForRolesAsync(string roles, string claimType, string Value);
     }
 }
