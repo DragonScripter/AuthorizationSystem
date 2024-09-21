@@ -14,13 +14,14 @@ namespace Authentication.Repository.Inteface
         Task<bool> CreateAdminAsync(AppUser Admin);
         Task<IEnumerable<AppUser>> GetAllAdmin();
 
-        //Contributor permissions
+        //Admin permissions
         Task<bool> CreateContentAsync(Content content);
         Task<bool> GetContentByIdAsync(int contentId);
         Task<IEnumerable<Content>> GetAllContentAsync();
         Task<bool> UpdateContent(Content content);
         Task<bool> DeleteContent(Content content);
         Task<bool> PublishContent(Content content);
+        Task<bool> hasPermissionAsync(string userID, string perm);
 
     }
 }

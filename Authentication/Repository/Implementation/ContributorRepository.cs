@@ -1,5 +1,9 @@
-﻿using Authentication.Model;
+﻿using Authentication.Data;
+using Authentication.Model;
 using Authentication.Repository.Inteface;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,39 +14,74 @@ namespace Authentication.Repository.Implementation
 {
     public class ContributorRepository : IContributorRepository
     {
-        public Task<bool> CreateContentAsync(Content content)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<RoleEF> _roleManager;
+        private readonly AppDbContext _context;
+
+        public ContributorRepository(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager, AppDbContext context)
         {
-            throw new NotImplementedException();
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _context = context;
         }
 
-        public Task<bool> CreateContributorAsync(AppUser Contributor)
+        public async Task<bool>userAuthAsync(string name, string password) 
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null) 
+            {
+                return false;
+            }
+
+            var key = await _userManager.CheckPasswordAsync(user, password);
+            return true;
         }
 
-        public Task<IEnumerable<Content>> GetAllContentAsync()
+        public async Task<AppUser?> GetContributorByNameAsync(string name) 
         {
-            throw new NotImplementedException();
+            return await _userManager.FindByNameAsync(name);
         }
 
-        public Task<IEnumerable<AppUser>> GetAllContributors()
+        public async Task<bool> CreateContributorAsync(AppUser Contributor) 
         {
-            throw new NotImplementedException();
+            var user = await _userManager.CreateAsync(Contributor, Contributor.Password);
+            return user.Succeeded;
         }
 
-        public Task<bool> GetContentByIdAsync(int contentId)
+        public async Task<IEnumerable<AppUser>> GetAllContributors() 
         {
-            throw new NotImplementedException();
+            return await _userManager.Users.ToListAsync();
         }
 
-        public Task<AppUser> GetContributorByNameAsync(string name)
+        //contributor perms
+        public async Task<bool> CreateContentAsync(Content content) 
         {
-            throw new NotImplementedException();
+            if (content == null || string.IsNullOrEmpty(content.Title) || string.IsNullOrEmpty(content.Body))
+            {
+                return false; 
+            }
+
+            await _context.contents.AddAsync(content);
+
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+        public async Task<bool> GetContentByIdAsync(int contentId) 
+        {
+            var content = await _context.contents.FindAsync(contentId);
+            return content != null;
+        }
+        public async Task<IEnumerable<Content>> GetAllContentAsync() 
+        {
+            return await _context.contents.ToListAsync();
+        }
+        public async Task<bool> hasPermissionAsync(string role, string perm) 
+        {
+          //need to create role and permission interface
+
         }
 
-        public Task<bool> userAuthAsync(string name, string password)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }
