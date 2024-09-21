@@ -36,7 +36,7 @@ namespace Authentication.Repository.Implementation
             return true;
         }
 
-        public async Task<AppUser> GetEditorByNameAsync(string name) 
+        public async Task<AppUser?> GetEditorByNameAsync(string name) 
         {
             return await _userManager.FindByNameAsync(name);
         }
