@@ -54,13 +54,11 @@ namespace Authentication.Repository.Implementation
 
         //Editor permissions
 
-        public async Task<bool> UpdateContent(Content content) 
+        public async Task UpdateContent(Content content) 
         {
             _context.contents.Update(content);
 
-            var result = await _context.SaveChangesAsync();
-            return true;
-            //remove bool it does not need to return anything
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> GetContentByIdAsync(int contentId) 
