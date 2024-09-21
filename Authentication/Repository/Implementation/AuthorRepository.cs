@@ -1,6 +1,7 @@
 ﻿using Authentication.Data;
 using Authentication.Model;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,5 +50,21 @@ namespace Authentication.Repository.Implementation
         {
             return await _userManager.Users.ToListAsync();
         }
+
+        //Author permissions
+
+        public async Task<bool> CreateContentAsync(Content content) 
+        {
+            if (content == null || string.IsNullOrEmpty(content.Title) || string.IsNullOrEmpty(content.Body))
+            {
+                return false;
+            }
+
+            await _context.contents.AddAsync(content);
+
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
     }
 }
