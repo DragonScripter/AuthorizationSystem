@@ -34,9 +34,15 @@ namespace Authentication.Repository.Implementation
             return true;
         }
 
-        public async Task<AppUser> GetAuthorByNameAsync(string name) 
+        public async Task<AppUser?> GetAuthorByNameAsync(string name) 
         {
             return await _userManager.FindByNameAsync(name);
+        }
+
+        public async Task<bool> CreateAuthorAsync(AppUser Author) 
+        {
+            var user = await _userManager.CreateAsync(Author, Author.Password);
+            return user.Succeeded;
         }
     }
 }

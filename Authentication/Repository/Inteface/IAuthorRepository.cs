@@ -10,7 +10,7 @@ namespace Authentication.Repository.Inteface
     public interface IAuthorRepository
     {
         Task<bool> userAuthAsync(string name, string password);
-        Task<AppUser> GetAuthorByNameAsync(string name);
+        Task<AppUser?> GetAuthorByNameAsync(string name);
         Task<bool> CreateAuthorAsync(AppUser Author);
         Task<IEnumerable<AppUser>> GetAllAuthors();
 
