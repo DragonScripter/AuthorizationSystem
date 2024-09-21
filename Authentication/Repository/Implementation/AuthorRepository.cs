@@ -77,5 +77,17 @@ namespace Authentication.Repository.Implementation
             return await _context.contents.ToListAsync();
         }
 
+        public async Task<bool> PublishContent(int contentID, string authorID) 
+        {
+            var content = await _context.contents.FindAsync(contentID);
+            if (content == null) 
+            {
+                return false;
+            }
+
+            content.isPublished = true;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
