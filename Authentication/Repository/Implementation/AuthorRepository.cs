@@ -72,5 +72,10 @@ namespace Authentication.Repository.Implementation
             return content != null;
         }
 
+        public async Task<IEnumerable<Content>> GetAllContentAsync() 
+        {
+            return await _context.contents.ToListAsync();
+        }
+
     }
 }
