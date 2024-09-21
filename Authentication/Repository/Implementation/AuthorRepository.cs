@@ -1,5 +1,6 @@
 ﻿using Authentication.Data;
 using Authentication.Model;
+using Authentication.Repository.Inteface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Authentication.Repository.Implementation
 {
-    public class AuthorRepository
+    public class AuthorRepository : IAuthorRepository
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<RoleEF> _roleManager;
