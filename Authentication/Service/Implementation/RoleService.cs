@@ -41,7 +41,20 @@ namespace Authentication.Service.Implementation
             return false;
         }
 
-        public async Task <IEnumerable<bool>> CheckPermForRolesAsync(string roles, string claimType, string Value)
+        public async Task <IEnumerable<Claim>> CheckPermForRolesAsync(string roles, string claimType, string Value)
+        {
+            var role = await _roleManager.FindByNameAsync(roles);
+
+            if (role == null) 
+            {
+                throw new Exception("Role not found");
+            }
+
+            return await _roleManager.GetClaimsAsync(role);
+            
+        }
+
+        public async Task<bool> GetClaimsForRolesAsync(string roles)
         {
             var role = await _roleManager.FindByNameAsync(roles);
 
@@ -51,12 +64,7 @@ namespace Authentication.Service.Implementation
             }
 
             var claim = await _roleManager.GetClaimsAsync(role);
-            return true;
-        }
-
-        public Task<bool> GetClaimsForRolesAsync(string roles)
-        {
-            throw new NotImplementedException();
+            // need to add the interface arguments for this
         }
     }
 }
