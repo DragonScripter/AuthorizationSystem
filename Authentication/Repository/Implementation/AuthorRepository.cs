@@ -44,5 +44,10 @@ namespace Authentication.Repository.Implementation
             var user = await _userManager.CreateAsync(Author, Author.Password);
             return user.Succeeded;
         }
+
+        public async Task<IEnumerable<AppUser>> GetAllAuthors() 
+        {
+            return await _userManager.Users.ToListAsync();
+        }
     }
 }
