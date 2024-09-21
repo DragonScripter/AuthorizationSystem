@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,14 +41,22 @@ namespace Authentication.Service.Implementation
             return false;
         }
 
-        //public Task<bool> CheckPermForRolesAsync(string roles, string claimType, string Value)
-        //{
-            
-        //}
+        public async Task <IEnumerable<bool>> CheckPermForRolesAsync(string roles, string claimType, string Value)
+        {
+            var role = await _roleManager.FindByNameAsync(roles);
 
-        //public Task<bool> GetClaimsForRolesAsync(string roles)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            if (role == null) 
+            {
+                throw new Exception("Role not found");
+            }
+
+            var claim = await _roleManager.GetClaimsAsync(role);
+            return true;
+        }
+
+        public Task<bool> GetClaimsForRolesAsync(string roles)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
