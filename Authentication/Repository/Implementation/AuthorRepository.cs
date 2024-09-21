@@ -89,5 +89,36 @@ namespace Authentication.Repository.Implementation
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> hasPermissionAsync(string userID, string perm) 
+        {
+            var Editor = await _userManager.FindByNameAsync(userID);
+            if (Editor == null) 
+            {
+                return false;
+            }
+
+            var roles = await _userManager.GetRolesAsync(Editor);
+
+            foreach (var rolesNames in roles) 
+            {
+                var role = await _roleManager.FindByNameAsync(rolesNames);
+                if (role == null) 
+                {
+                    throw new Exception("Role not found");
+                }
+
+                var claim = await _roleManager.GetClaimsAsync(role);
+
+                if (claim.Any(c => c.Type == "Permission" && c.Value == perm)) 
+                {
+                    return true;
+                }
+
+            }
+            return false;
+
+
+        }
     }
 }
