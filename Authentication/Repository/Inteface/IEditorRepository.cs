@@ -15,7 +15,7 @@ namespace Authentication.Repository.Inteface
         Task<IEnumerable<AppUser>> GetAllEditor();
 
         //Editor permissions
-        Task<bool> UpdateContent(Content content);
+        Task UpdateContent(Content content);
         Task<bool> GetContentByIdAsync(int contentId);
         Task<IEnumerable<Content>> GetAllContentAsync();
         Task<bool> hasPermissionAsync(string userID, string perm);
