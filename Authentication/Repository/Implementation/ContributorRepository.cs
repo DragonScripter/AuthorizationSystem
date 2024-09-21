@@ -75,11 +75,22 @@ namespace Authentication.Repository.Implementation
         {
             return await _context.contents.ToListAsync();
         }
-        public async Task<bool> hasPermissionAsync(string role, string perm) 
-        {
-          //need to create role and permission interface
+        //public async Task<bool> hasPermissionAsync(string Id, string perm) 
+        //{
+        //    var contributor = await _userManager.FindByIdAsync(Id);
+        //    if (contributor == null) 
+        //    {
+        //        return false;
+        //    }
 
-        }
+        //    var roles = await _userManager.GetRolesAsync(contributor);
+
+
+        //    foreach (var role in roles) 
+        //    {
+        //        //creating the claims for roles and permission
+        //    }
+        //}
 
 
 

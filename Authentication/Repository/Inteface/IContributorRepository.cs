@@ -19,6 +19,6 @@ namespace Authentication.Repository.Inteface
         Task<bool> CreateContentAsync(Content content);
         Task<bool> GetContentByIdAsync(int contentId);
         Task<IEnumerable<Content>> GetAllContentAsync();
-        Task<bool> hasPermissionAsync(string role, string perm);
+        Task<bool> hasPermissionAsync(string Id, string perm);
     }
 }
