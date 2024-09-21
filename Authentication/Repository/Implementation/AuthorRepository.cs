@@ -66,5 +66,11 @@ namespace Authentication.Repository.Implementation
             return result > 0;
         }
 
+        public async Task<bool> GetContentByIdAsync(int contentId) 
+        {
+            var content = await _context.contents.FindAsync(contentId);
+            return content != null;
+        }
+
     }
 }
