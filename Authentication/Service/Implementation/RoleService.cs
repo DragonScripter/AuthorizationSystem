@@ -54,7 +54,7 @@ namespace Authentication.Service.Implementation
             
         }
 
-        public async Task<bool> GetClaimsForRolesAsync(string roles)
+        public async Task<bool> GetClaimsForRolesAsync(string roles, string claimType, string value)
         {
             var role = await _roleManager.FindByNameAsync(roles);
 
@@ -64,7 +64,7 @@ namespace Authentication.Service.Implementation
             }
 
             var claim = await _roleManager.GetClaimsAsync(role);
-            // need to add the interface arguments for this
+            return claim.Any(c => c.Type != claimType && c.Value != value);
         }
     }
 }
