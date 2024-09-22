@@ -49,6 +49,19 @@ namespace Authentication.Service.Implementation
             return false;
         }
 
+        public async Task<IEnumerable<Claim>> GetClaimsForRolesAsync(string roles, string claimType, string value)
+        {
+            var role = await _roleManager.FindByNameAsync(roles);
+
+            if (role == null)
+            {
+                return Enumerable.Empty<Claim>();
+            }
+
+            return await _roleManager.GetClaimsAsync(role);
+
+        }
+
         public async Task <bool> CheckPermForRolesAsync(string roles, string claimType, string Value)
         {
             var role = await _roleManager.FindByNameAsync(roles);
@@ -61,19 +74,6 @@ namespace Authentication.Service.Implementation
             var claim = await _roleManager.GetClaimsAsync (role);
             return claim.Any(c => c.Type != claimType && c.Value != Value);
 
-        }
-
-        public async Task<IEnumerable<Claim>> GetClaimsForRolesAsync(string roles, string claimType, string value)
-        {
-            var role = await _roleManager.FindByNameAsync(roles);
-
-            if (role == null) 
-            {
-                return Enumerable.Empty<Claim>();
-            }
-
-            return await _roleManager.GetClaimsAsync(role);
-            
         }
     }
 }

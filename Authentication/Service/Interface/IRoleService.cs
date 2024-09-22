@@ -9,8 +9,9 @@ namespace Authentication.Service.Interface
 {
     public interface IRoleService
     {
+        Task<bool> CreateRoleAsync(string roleName);
         Task<bool> addClaimToRoleAsync(string roles, string claimType, string value);
-        Task <bool> GetClaimsForRolesAsync(string roles, string claimType, string Value);
-        Task<IEnumerable<Claim>> CheckPermForRolesAsync(string roles, string claimType, string Value);
+        Task<IEnumerable<Claim>> GetClaimsForRolesAsync(string roles, string claimType, string Value);
+        Task<bool> CheckPermForRolesAsync(string roles, string claimType, string Value);
     }
 }
