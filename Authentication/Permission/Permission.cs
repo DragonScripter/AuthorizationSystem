@@ -12,5 +12,6 @@ namespace Authentication.Service
         public const string ReadContent = "ReadContent";
         public const string UpdateContent = "UpdateContent";
         public const string DeleteContent = "DeleteContent";
+        public const string PublishContent = "PublishContent";
     }
 }
