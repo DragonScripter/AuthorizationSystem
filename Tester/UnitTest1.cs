@@ -50,5 +50,11 @@ namespace Tester
             _userManager.Verify(AU => AU.CreateAsync(user, "password123"), Times.Once);
 
         }
+
+        [Fact]
+        public async void AddingRoleAsync()
+        {
+            
+        }
     }
 }
