@@ -10,8 +10,7 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    services.AddScoped(IUserService, UserService);
-    services.AddScoped(IRoleService, RoleService);
+
 }
 
 
