@@ -19,5 +19,13 @@
     <ProjectReference Include="..\Authentication\Authentication.csproj" />
     <ProjectReference Include="..\Tester\Tester.csproj" />
   </ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Test\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="wwwroot\Index\Index.html" />
+	</ItemGroup>
 
 </Project>

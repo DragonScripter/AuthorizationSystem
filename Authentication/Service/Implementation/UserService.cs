@@ -39,6 +39,7 @@ namespace Authentication.Service.Implementation
         public async Task<AppUser?> GetUserByNameAsync(string name)
         {
             return await _userManager.FindByNameAsync(name);
+            
         }
 
         public async Task<bool> CreateUserAsync(AppUser User, string password)

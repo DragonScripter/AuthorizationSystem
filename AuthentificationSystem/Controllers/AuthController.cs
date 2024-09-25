@@ -24,7 +24,7 @@ namespace AuthentificationSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = _userManager.FindByNameAsync(loginModel.Username);
+            var user = await _userManager.FindByNameAsync(loginModel.Username);
             if (user == null) 
             {
                 return NotFound("Not Found");
