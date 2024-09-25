@@ -25,12 +25,12 @@ namespace Authentication.Data
                 .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
             modelBuilder.Entity<RolePermissionEF>()
-                .HasOne(rp => rp.Role)
-                .WithMany(r => r.rolePermissions)
+                .HasOne(rp => rp.RoleEF)
+                .WithMany(r => r.RolePermissions)
                 .HasForeignKey(rp => rp.RoleId);
 
             modelBuilder.Entity<RolePermissionEF>()
-                .HasOne(rp => rp.Permission)
+                .HasOne(rp => rp.PermissionEF)
                 .WithMany(p => p.rolePermissions)
                 .HasForeignKey(p => p.PermissionId);
 

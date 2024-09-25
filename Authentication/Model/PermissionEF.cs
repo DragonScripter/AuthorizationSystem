@@ -9,7 +9,7 @@ namespace Authentication.Model
     public class PermissionEF
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         public ICollection<RolePermissionEF> rolePermissions { get; set; } = new List<RolePermissionEF>();
     }
