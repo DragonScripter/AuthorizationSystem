@@ -19,8 +19,12 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+<<<<<<< HEAD
     services.AddScoped<IUserService, UserService>(); // AddScoped needs a generic syntax
     services.AddScoped<IRoleService, RoleService>(); // Same here
+=======
+
+>>>>>>> Master
 }
 
 ConfigureServices(builder.Services);
