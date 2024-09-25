@@ -14,16 +14,16 @@ namespace Authentication.Service.Implementation
 {
     public class RoleService : IRoleService
     {
-        RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<RoleEF> _roleManager;
 
-        public RoleService(RoleManager<IdentityRole> roleManager)
+        public RoleService(RoleManager<RoleEF> roleManager)
         {
             _roleManager = roleManager;
         }
 
         public async Task<bool> CreateRoleAsync(string roleName)
         {
-            var role = new IdentityRole(roleName);
+            var role = new RoleEF { Name = roleName };
             var result = await _roleManager.CreateAsync(role);
             return result.Succeeded;
         }

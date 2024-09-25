@@ -12,7 +12,8 @@ namespace Authentication.Model
         public int PermissionId { get; set; }
 
 
-        public RoleEF Role { get; set; }
-        public PermissionEF Permission { get; set; }
+        public virtual RoleEF? RoleEF { get; set; }
+        public virtual PermissionEF? PermissionEF { get; set; }
+
     }
 }

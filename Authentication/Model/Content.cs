@@ -14,26 +14,24 @@ namespace Authentication.Model
 
         [Required]
         [StringLength(100)]
-        public string Title { get; set; }
+        public required string Title { get; set; }
 
         [Required] 
-        public string Body { get; set; }
+        public required string Body { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public int AuthorId { get; set; }
-        public virtual AppUser Author { get; set; }
+        public virtual required AppUser Author { get; set; }
 
         public bool isPublished { get; set; } = false;
 
 
         [StringLength(200)]
-        public string description { get; set; }
+        public required string description { get; set; }
         public virtual ICollection<ContentTag> ContentTags { get; set; } = new List<ContentTag>();
         public string? ImageUrl { get; set; }
-
-
 
     }
 }

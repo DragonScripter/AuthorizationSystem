@@ -40,7 +40,7 @@ namespace Authentication.Data
             var roles = await _roleManager.FindByNameAsync(role);
             foreach (var perm in perms) 
             {
-                await AddClaimToRoleAsync(roles, "Permission", perm);
+                await AddClaimToRoleAsync(roles!, "Permission", perm);
             }
         }
         private async Task AddClaimToRoleAsync(IdentityRole roles, string claimType, string value)

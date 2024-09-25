@@ -1,6 +1,15 @@
 using Authentication.Data;
+using Authentication.Model;
+using Authentication.Service.Implementation;
+using Authentication.Service.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Drawing.Text;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +19,32 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+<<<<<<< HEAD
+    services.AddScoped<IUserService, UserService>(); // AddScoped needs a generic syntax
+    services.AddScoped<IRoleService, RoleService>(); // Same here
+=======
 
+>>>>>>> Master
 }
 
+ConfigureServices(builder.Services);
 
-    builder.Services.AddControllers();
+static async Task Seeding(IServiceProvider service) 
+{
+    using (var scope = service.CreateScope()) 
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+
+        var seeder = new SeedingAuthority(roleManager, userManager);
+        await seeder.SeedingAsync();
+    }
+}
+
+builder.Services.AddIdentity<AppUser, RoleEF>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -32,7 +62,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthorization(); 
+app.UseStaticFiles();
 
 app.MapControllers();
 

@@ -1,15 +1,15 @@
 ﻿using Authentication.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, RoleEF, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base (options) 
         {
         }
 
-        public DbSet<AppUser> Users { get; set; }
         public DbSet<Content> contents { get; set; }
         public DbSet<Tag> tags { get; set; }
         public DbSet<ContentTag> contentTags { get; set; }
@@ -20,31 +20,36 @@ namespace Authentication.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //roles and permissions relationship
+            // Roles and Permissions Relationship
             modelBuilder.Entity<RolePermissionEF>()
                 .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
             modelBuilder.Entity<RolePermissionEF>()
-                .HasOne(rp => rp.Role)
-                .WithMany(r => r.rolePermissions)
-                .HasForeignKey(rp => rp.RoleId);
+               .HasOne(rp => rp.RoleEF)
+               .WithMany(r => r.RolePermissions)
+               .HasForeignKey(rp => rp.RoleId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RolePermissionEF>()
-                .HasOne(rp => rp.Permission)
+                .HasOne(rp => rp.PermissionEF)
                 .WithMany(p => p.rolePermissions)
-                .HasForeignKey(p => p.PermissionId);
+                .HasForeignKey(rp => rp.PermissionId);
 
-            //user and roles
+
+            // User and Roles Relationship
             modelBuilder.Entity<AppUser>()
                 .HasOne(u => u.Role)
                 .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleID);
+                .HasForeignKey(u => u.RoleID)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             //user and content
             modelBuilder.Entity<Content>()
                 .HasOne(c => c.Author)
                 .WithMany(u => u.Content)
-                .HasForeignKey(c => c.AuthorId);
+                .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //content and tags
             modelBuilder.Entity<ContentTag>()
