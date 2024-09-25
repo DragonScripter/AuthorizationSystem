@@ -35,8 +35,11 @@ static async Task Seeding(IServiceProvider service)
         var seeder = new SeedingAuthority(roleManager, userManager);
         await seeder.SeedingAsync();
     }
-} 
+}
 
+builder.Services.AddIdentity<AppUser, RoleEF>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

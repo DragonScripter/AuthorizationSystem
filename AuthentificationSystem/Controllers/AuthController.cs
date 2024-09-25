@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthentificationSystem.Controllers
 {
     [ApiController]
-    [Route("api/[Auth]")]
+    [Route("api/[Controller]")]
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -16,7 +16,7 @@ namespace AuthentificationSystem.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel) 
         {
             if (!ModelState.IsValid) 
@@ -39,6 +39,8 @@ namespace AuthentificationSystem.Controllers
             return Ok("Login sucess");
 
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
