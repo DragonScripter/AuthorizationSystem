@@ -1,12 +1,10 @@
 <script setup lang="ts">
     import { defineComponent } from 'vue';
-    import Login from './components/Login.vue'; // Import your Login component
+    import Login from './components/Login.vue';
+    import Registration from './components/Registration.vue';
 </script>
 
 <template>
-
-    <main>
-        <Login /> 
-    </main>
+    <router-view></router-view>
 </template>
 

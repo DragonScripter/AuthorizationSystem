@@ -4,7 +4,7 @@
             <div class="form-content">
             <div class="Intro-content">
                 <h1>Login</h1>
-                <h3>Don't have an account yet? <a href="#">Sign up</a></h3>
+                <h3>Don't have an account yet? <router-link to="/sign">Sign up</router-link></h3>
             </div>
             <form @submit.prevent="handleSubmit">
                 <div class="group">
@@ -84,7 +84,7 @@
     });
 </script>
 
-<style>
+<style scoped>
     .body-container {
         background-color: #f0f0f0;
         background-size: cover;
@@ -105,11 +105,11 @@
         background-position: right center; 
         padding: 20px; 
         border-radius: 5px;
-        border-block-color:black;
         height: 500px; 
         width: 100%;
         max-width: 100%; 
-        text-align: center; 
+        text-align: center;
+        margin-right: 200px;
     }
     .form-content {
         position: relative;
@@ -118,6 +118,7 @@
         padding: 20px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         border-radius: 5px;
+        margin-left: 200px;
     }
     .Intro-content h3, h1 {
         text-align: left;
@@ -161,16 +162,14 @@
     input {
         border-radius: 10px;
     }
-    button {
-        padding: 30px;
-    }
     .custom {
-        font-size: 2rem;
-        padding: 10px 20px;
-        width: 159px;
-        border-radius: 5px;
+        font-size: 1.5rem;
+        padding: 10px 10px;
+        width: 150px;
+        border-radius: 4px;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 10px;
     }
 </style>
