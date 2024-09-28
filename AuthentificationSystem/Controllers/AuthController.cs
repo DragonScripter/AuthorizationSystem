@@ -39,6 +39,32 @@ namespace AuthentificationSystem.Controllers
             return Ok("Login sucess");
 
         }
+        [HttpPost("registration")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
+        {
+            if (ModelState.IsValid) 
+            {
+                var user = new AppUser
+                {
+                    Name = registerModel.Name,
+                    UserName = registerModel.Username,
+                    Email = registerModel.Email,
+                };
+                var result = await _userManager.CreateAsync(user, registerModel.Password);
+                if (result.Succeeded) 
+                {
+                    await _userManager.AddToRoleAsync(user, "Guest");
+
+                    return Ok(new { Message = "User registered successfully." });
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return BadRequest(ModelState);
+        }
 
         [HttpGet]
         public IActionResult Index()

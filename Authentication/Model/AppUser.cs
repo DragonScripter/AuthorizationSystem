@@ -11,13 +11,17 @@ namespace Authentication.Model
     {
 
         public required string Name { get; set; }
-        public required string Password { get; set; }
+        public string Password { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
         public int RoleID { get; set; }
-        public virtual required RoleEF Role { get; set; }
+        public virtual RoleEF Role { get; set; }
         
         public virtual ICollection<Content> Content { get; set; } = new List<Content>();
 
+        public AppUser() 
+        {
+            Role = new RoleEF();
+        }
     }
 }
