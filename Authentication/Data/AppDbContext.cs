@@ -20,6 +20,14 @@ namespace Authentication.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //seeding roles to db
+            modelBuilder.Entity<RoleEF>().HasData(
+           new RoleEF { Id = 1, Name = "Admin" },
+           new RoleEF { Id = 2, Name = "Author" },
+           new RoleEF { Id = 3, Name = "Editor" },
+           new RoleEF { Id = 4, Name = "Contributor" },
+           new RoleEF { Id = 5, Name = "Guest" }
+           );
             // Roles and Permissions Relationship
             modelBuilder.Entity<RolePermissionEF>()
                 .HasKey(rp => new { rp.RoleId, rp.PermissionId });
