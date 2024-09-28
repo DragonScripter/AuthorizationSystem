@@ -39,6 +39,11 @@ namespace AuthentificationSystem.Controllers
             return Ok("Login sucess");
 
         }
+        [HttpPost("registration")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
+        {
+            var user = _userManager.CreateAsync(loginModel.Username);
+        }
 
         [HttpGet]
         public IActionResult Index()
