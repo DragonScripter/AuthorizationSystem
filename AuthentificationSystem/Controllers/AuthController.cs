@@ -40,10 +40,23 @@ namespace AuthentificationSystem.Controllers
 
         }
         [HttpPost("registration")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
-        {
-            var user = _userManager.CreateAsync(loginModel.Username);
-        }
+        [ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
+        //{
+        //    if (ModelState.IsValid) 
+        //    {
+        //        var user = new AppUser
+        //        {
+        //            Name = registerModel.Name,
+        //            UserName = registerModel.Username,
+        //            Email = registerModel.Email,
+        //            Password = registerModel.Password,
+        //            RoleID= 1,
+        //        };
+        //        var result = await _userManager.CreateAsync(user);
+
+        //    }
+        //}
 
         [HttpGet]
         public IActionResult Index()

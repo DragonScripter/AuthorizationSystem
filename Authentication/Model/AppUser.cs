@@ -15,7 +15,7 @@ namespace Authentication.Model
         public DateTime Date { get; set; } = DateTime.UtcNow;
 
         public int RoleID { get; set; }
-        public virtual required RoleEF Role { get; set; }
+        public virtual RoleEF Role { get; set; }
         
         public virtual ICollection<Content> Content { get; set; } = new List<Content>();
 
