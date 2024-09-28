@@ -210,6 +210,33 @@ namespace Authentication.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Author"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Editor"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Contributor"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Guest"
+                        });
                 });
 
             modelBuilder.Entity("Authentication.Model.RolePermissionEF", b =>
