@@ -6,12 +6,42 @@
             </div>
         </div>
         <div class="right">
+            <div class="intro-content">
             <h1>Registration Page</h1>
-            <form @submit.prevent="handleRegister">
-                <input type="text" v-model="username" placeholder="Username" required />
-                <input type="password" v-model="password" placeholder="Password" required />
-                <button type="submit">Register</button>
-            </form>
+                </div>
+            <form @submit.prevent="handleSubmit">
+                <div class="group">
+                    <label for="username"><strong>Username</strong></label>
+                    <input type="text"
+                           v-model="formData.username"
+                           id="username"
+                           placeholder="Username"
+                           class="input-box"
+                           required />
+                </div>
+                <div class="group">
+                    <label for="email"><strong>Email</strong></label>
+                    <input type="text"
+                           v-model="formData.email"
+                           id="email"
+                           placeholder="Enter your email"
+                           class="input-box"
+                           required />
+                </div>
+                <div class="group">
+                    <label for="Password"><strong>Password</strong></label>
+                    <input type="password"
+                           v-model="formData.password"
+                           id="password"
+                           placeholder="Password"
+                           class="input-box"
+                           required />
+                    <button type="submit" class="btn btn-primary custom">Login</button>
+                </div>
+                <div v-if="formData.errorMessage" class="error">
+                    {{ formData.errorMessage }}
+                </div>
+                </form>
         </div>
     </div>
 </template>
@@ -39,3 +69,52 @@
         justify-content: center;
     }
 </style>
+
+<script lang="ts">
+    import { defineComponent, reactive } from 'vue';
+
+    export default defineComponent({
+        setup() {
+            const formData = reactive({
+                username: '',
+                email: '',
+                password: '',
+                errorMessage: ''
+            });
+
+            const handleSubmit = async () => {
+                if (formData.username === '' || formData.email == '' ||formData.password === '') {
+                    formData.errorMessage = 'Please fill in all fields.';
+                }
+                else
+                {
+                    try {
+                        const response = await fetch('https://auth/registraion', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                username: formData.username,
+                                email: formData.email,
+                                password: formData.password,
+                            }),
+                        });
+
+                        const data = await response.json();
+                        console.log('Login successful:', data);
+                        formData.errorMessage = 'Login Sucess!';
+                    } catch (error) {
+                        formData.errorMessage = 'Login failed. Please try again.';
+                        console.error(error);
+                    }
+                }
+            };
+
+            return {
+                formData,
+                handleSubmit
+            };
+        },
+    });
+</script>
