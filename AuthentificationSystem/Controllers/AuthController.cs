@@ -62,9 +62,8 @@ namespace AuthentificationSystem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-
-                return BadRequest(ModelState);
             }
+            return BadRequest(ModelState);
         }
 
         [HttpGet]
