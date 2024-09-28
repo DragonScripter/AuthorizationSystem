@@ -11,6 +11,15 @@
                 </div>
             <form @submit.prevent="handleSubmit">
                 <div class="group">
+                    <label for="name"><strong>Name</strong></label>
+                    <input type="text"
+                           v-model="formData.name"
+                           id="name"
+                           placeholder="Enter your name"
+                           class="input-box"
+                           required />
+                </div>
+                <div class="group">
                     <label for="username"><strong>Username</strong></label>
                     <input type="text"
                            v-model="formData.username"
@@ -41,7 +50,7 @@
                 <div v-if="formData.errorMessage" class="error">
                     {{ formData.errorMessage }}
                 </div>
-                </form>
+            </form>
         </div>
     </div>
 </template>
@@ -76,6 +85,7 @@
     export default defineComponent({
         setup() {
             const formData = reactive({
+                name: '',
                 username: '',
                 email: '',
                 password: '',
@@ -83,7 +93,7 @@
             });
 
             const handleSubmit = async () => {
-                if (formData.username === '' || formData.email == '' ||formData.password === '') {
+                if (formData.name == '' ||formData.username === '' || formData.email == '' ||formData.password === '') {
                     formData.errorMessage = 'Please fill in all fields.';
                 }
                 else
@@ -95,6 +105,7 @@
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify({
+                                name: formData.name,
                                 username: formData.username,
                                 email: formData.email,
                                 password: formData.password,
