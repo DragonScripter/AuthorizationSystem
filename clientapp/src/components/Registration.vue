@@ -184,7 +184,11 @@
                 else
                 {
                     try {
+<<<<<<< HEAD
                         const response = await fetch('https://localhost:7049/api/auth/registraion', {
+=======
+                        const response = await fetch('https://localhost:7049/api/auth/registration', {
+>>>>>>> 1e1f1eb2efe5ca201f6b7892b33ef65c3215383b
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -197,12 +201,15 @@
                             }),
                         });
 
+                        if (!response.ok) {
+                            throw new Error('Sign up failed');
+                        }
+
                         const data = await response.json();
-                        console.log('Login successful:', data);
-                        formData.errorMessage = 'Login Sucess!';
+                        console.log('SignUp successful:', data);
+                        formData.errorMessage = 'Signing up Sucess!';
                     } catch (error) {
-                        formData.errorMessage = 'Login failed. Please try again.';
-                        console.error(error);
+                        console.error("Error doing sign up", error);
                     }
                 }
             };
