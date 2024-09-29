@@ -51,7 +51,7 @@
                     formData.errorMessage = 'Please fill in all fields.';
                 } else {
                     try {
-                        const response = await fetch('https://auth/login', {
+                        const response = await fetch('https://localhost:7049/api/auth/login', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
