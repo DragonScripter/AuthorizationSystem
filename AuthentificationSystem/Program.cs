@@ -22,14 +22,25 @@ void ConfigureServices(IServiceCollection services)
     services.AddScoped<IUserService, UserService>(); // AddScoped needs a generic syntax
     services.AddScoped<IRoleService, RoleService>(); // Same here
 
-
+    //adding the cors for frontend and backend to link
+    services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+    });
+    services.AddControllers();
 }
 
 ConfigureServices(builder.Services);
 
-static async Task Seeding(IServiceProvider service) 
+static async Task Seeding(IServiceProvider service)
 {
-    using (var scope = service.CreateScope()) 
+    using (var scope = service.CreateScope())
     {
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
@@ -57,10 +68,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAllOrigins");
+app.UseRouting();
 app.UseHttpsRedirection();
 
-app.UseAuthorization(); 
+app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapControllers();
