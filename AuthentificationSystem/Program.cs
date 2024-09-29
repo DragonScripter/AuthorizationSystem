@@ -33,7 +33,7 @@ void ConfigureServices(IServiceCollection services)
                 .AllowAnyHeader();
             });
     });
-    services.AddControllers();
+    builder.Services.AddControllersWithViews();
 }
 
 ConfigureServices(builder.Services);

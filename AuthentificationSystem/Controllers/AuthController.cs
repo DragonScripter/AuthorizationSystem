@@ -10,6 +10,7 @@ namespace AuthentificationSystem.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<RoleEF> _roleManager;
 
         public AuthController(UserManager<AppUser> userManager) 
         {
@@ -40,30 +41,35 @@ namespace AuthentificationSystem.Controllers
 
         }
         [HttpPost("registration")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
         {
-            if (ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
-                var user = new AppUser
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
                 {
-                    Name = registerModel.Name,
-                    UserName = registerModel.Username,
-                    Email = registerModel.Email,
-                };
-                var result = await _userManager.CreateAsync(user, registerModel.Password);
-                if (result.Succeeded) 
-                {
-                    await _userManager.AddToRoleAsync(user, "Guest");
-
-                    return Ok(new { Message = "User registered successfully." });
+                    Console.WriteLine(error.ErrorMessage); // Log to console or your logging framework
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return BadRequest(ModelState);
+            }
+            var user = new AppUser
+            {
+                Name = registerModel.name,
+                UserName = registerModel.username,
+                Email = registerModel.email,
+            };
+            var result = await _userManager.CreateAsync(user, registerModel.password);
+            if (result.Succeeded) 
+            {
+                await _userManager.AddToRoleAsync(user, "Guest");
+                return Ok(new { Message = "User registered successfully." });
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
             return BadRequest(ModelState);
+    
         }
 
         [HttpGet]
