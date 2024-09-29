@@ -184,7 +184,9 @@
                 else
                 {
                     try {
-                        const response = await fetch('https://localhost:7049/api/auth/registration', {
+
+                        const response = await fetch('https://localhost:7049/api/auth/registraion', {
+
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
