@@ -9,7 +9,12 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Authentication\Authentication.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
