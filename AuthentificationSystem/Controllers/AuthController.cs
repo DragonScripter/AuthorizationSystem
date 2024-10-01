@@ -62,7 +62,7 @@ namespace AuthentificationSystem.Controllers
             var result = await _userManager.CreateAsync(user, registerModel.password);
             if (result.Succeeded) 
             {
-                await _userManager.AddToRoleAsync(user, "Guest");
+                await _userManager.AddToRoleAsync(user, "Contributor");
                 return Ok(new { Message = "User registered successfully." });
             }
             foreach (var error in result.Errors)

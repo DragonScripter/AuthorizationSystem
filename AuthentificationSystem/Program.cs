@@ -19,8 +19,12 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    services.AddScoped<IUserService, UserService>(); // AddScoped needs a generic syntax
-    services.AddScoped<IRoleService, RoleService>(); // Same here
+    services.AddScoped<IUserService, UserService>(); 
+    services.AddScoped<IRoleService, RoleService>();
+    builder.Services.AddIdentity<AppUser, RoleEF>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 
     //adding the cors for frontend and backend to link
     services.AddCors(options =>
@@ -59,8 +63,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await Seeding(services);
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
