@@ -21,7 +21,7 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddScoped<IUserService, UserService>(); 
     services.AddScoped<IRoleService, RoleService>();
-    builder.Services.AddIdentity<AppUser, IdentityRole>()
+    builder.Services.AddIdentity<AppUser, RoleEF>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -46,7 +46,7 @@ static async Task Seeding(IServiceProvider service)
 {
     using (var scope = service.CreateScope())
     {
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEF>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
         var seeder = new SeedingAuthority(roleManager, userManager);

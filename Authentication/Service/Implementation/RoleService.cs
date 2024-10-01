@@ -23,7 +23,7 @@ namespace Authentication.Service.Implementation
 
         public async Task<bool> CreateRoleAsync(string roleName)
         {
-            var role = new RoleEF { Name = roleName };
+            var role = new RoleEF (roleName);
             var result = await _roleManager.CreateAsync(role);
             return result.Succeeded;
         }

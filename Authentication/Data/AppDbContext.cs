@@ -22,11 +22,11 @@ namespace Authentication.Data
         {
             //seeding roles to db
             modelBuilder.Entity<RoleEF>().HasData(
-           new RoleEF { Id = 1, Name = "Admin" },
-           new RoleEF { Id = 2, Name = "Author" },
-           new RoleEF { Id = 3, Name = "Editor" },
-           new RoleEF { Id = 4, Name = "Contributor" },
-           new RoleEF { Id = 5, Name = "Guest" }
+           new RoleEF ("Admin") { Id = 1 },
+           new RoleEF ("Author") { Id = 2 },
+           new RoleEF ("Editor") { Id = 3 },
+           new RoleEF ("Contributor") { Id = 4},
+           new RoleEF("Guest") { Id = 5}
            );
             // Roles and Permissions Relationship
             modelBuilder.Entity<RolePermissionEF>()
