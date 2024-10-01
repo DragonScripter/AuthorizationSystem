@@ -21,7 +21,7 @@ void ConfigureServices(IServiceCollection services)
 
     services.AddScoped<IUserService, UserService>(); 
     services.AddScoped<IRoleService, RoleService>();
-    builder.Services.AddIdentity<AppUser, RoleEF>()
+    builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -53,10 +53,6 @@ static async Task Seeding(IServiceProvider service)
         await seeder.SeedingAsync();
     }
 }
-
-builder.Services.AddIdentity<AppUser, RoleEF>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

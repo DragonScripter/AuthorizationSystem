@@ -6,10 +6,10 @@ namespace Authentication.Data
 {
     public class SeedingAuthority
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<RoleEF> _roleManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public SeedingAuthority(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
+        public SeedingAuthority(RoleManager<RoleEF> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -22,7 +22,7 @@ namespace Authentication.Data
             {
                 if (!await _roleManager.RoleExistsAsync(roleName)) 
                 {
-                    var role = new IdentityRole(roleName);
+                    var role = new RoleEF(roleName);
                     await _roleManager.CreateAsync(role);
                 }
 
@@ -43,7 +43,7 @@ namespace Authentication.Data
                 await AddClaimToRoleAsync(roles!, "Permission", perm);
             }
         }
-        private async Task AddClaimToRoleAsync(IdentityRole roles, string claimType, string value)
+        private async Task AddClaimToRoleAsync(RoleEF roles, string claimType, string value)
         {
 
             var claim = await _roleManager.GetClaimsAsync(roles);
