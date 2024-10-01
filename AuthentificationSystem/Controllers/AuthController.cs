@@ -12,9 +12,10 @@ namespace AuthentificationSystem.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<RoleEF> _roleManager;
 
-        public AuthController(UserManager<AppUser> userManager) 
+        public AuthController(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager) 
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost("login")]
@@ -48,7 +49,7 @@ namespace AuthentificationSystem.Controllers
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
                 foreach (var error in errors)
                 {
-                    Console.WriteLine(error.ErrorMessage); // Log to console or your logging framework
+                    Console.WriteLine(error.ErrorMessage); 
                 }
                 return BadRequest(ModelState);
             }
@@ -61,7 +62,7 @@ namespace AuthentificationSystem.Controllers
             var result = await _userManager.CreateAsync(user, registerModel.password);
             if (result.Succeeded) 
             {
-                await _userManager.AddToRoleAsync(user, "Guest");
+                await _userManager.AddToRoleAsync(user, "Contributor");
                 return Ok(new { Message = "User registered successfully." });
             }
             foreach (var error in result.Errors)

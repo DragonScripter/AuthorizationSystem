@@ -19,8 +19,12 @@ void ConfigureServices(IServiceCollection services)
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-    services.AddScoped<IUserService, UserService>(); // AddScoped needs a generic syntax
-    services.AddScoped<IRoleService, RoleService>(); // Same here
+    services.AddScoped<IUserService, UserService>(); 
+    services.AddScoped<IRoleService, RoleService>();
+    builder.Services.AddIdentity<AppUser, RoleEF>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 
     //adding the cors for frontend and backend to link
     services.AddCors(options =>
@@ -42,25 +46,27 @@ static async Task Seeding(IServiceProvider service)
 {
     using (var scope = service.CreateScope())
     {
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEF>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
         var seeder = new SeedingAuthority(roleManager, userManager);
         await seeder.SeedingAsync();
     }
 }
-
-builder.Services.AddIdentity<AppUser, RoleEF>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await Seeding(services);
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
