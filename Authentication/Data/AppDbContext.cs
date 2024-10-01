@@ -20,14 +20,6 @@ namespace Authentication.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //seeding roles to db
-            modelBuilder.Entity<RoleEF>().HasData(
-           new RoleEF { Id = 1, Name = "Admin" },
-           new RoleEF { Id = 2, Name = "Author" },
-           new RoleEF { Id = 3, Name = "Editor" },
-           new RoleEF { Id = 4, Name = "Contributor" },
-           new RoleEF { Id = 5, Name = "Guest" }
-           );
             // Roles and Permissions Relationship
             modelBuilder.Entity<RolePermissionEF>()
                 .HasKey(rp => new { rp.RoleId, rp.PermissionId });
@@ -42,15 +34,7 @@ namespace Authentication.Data
                 .HasOne(rp => rp.PermissionEF)
                 .WithMany(p => p.rolePermissions)
                 .HasForeignKey(rp => rp.PermissionId);
-
-
-            // User and Roles Relationship
-            modelBuilder.Entity<AppUser>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleID)
-                .OnDelete(DeleteBehavior.Restrict);
-
+           
 
             //user and content
             modelBuilder.Entity<Content>()

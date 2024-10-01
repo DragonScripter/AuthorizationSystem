@@ -9,7 +9,8 @@ namespace Authentication.Model
 {
     public class RoleEF : IdentityRole<int>
     {
-
+        public RoleEF() : base() { }
+        public RoleEF(string roleName) : base(roleName) { }
         public ICollection<RolePermissionEF> RolePermissions { get; set; } = new List<RolePermissionEF>();
         public virtual ICollection<AppUser> Users { get; set; } = new List<AppUser>();
     }
