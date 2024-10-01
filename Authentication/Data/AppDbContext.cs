@@ -34,15 +34,7 @@ namespace Authentication.Data
                 .HasOne(rp => rp.PermissionEF)
                 .WithMany(p => p.rolePermissions)
                 .HasForeignKey(rp => rp.PermissionId);
-
-
-            // User and Roles Relationship
-            modelBuilder.Entity<AppUser>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleID)
-                .OnDelete(DeleteBehavior.Restrict);
-
+           
 
             //user and content
             modelBuilder.Entity<Content>()
