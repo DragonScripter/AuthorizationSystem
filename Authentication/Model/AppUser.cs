@@ -20,7 +20,7 @@ namespace Authentication.Model
 
         public AppUser() 
         {
-            Role = new RoleEF();
+            Role = new RoleEF("Contributor");
         }
     }
 }
