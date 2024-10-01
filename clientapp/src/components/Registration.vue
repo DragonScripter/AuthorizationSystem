@@ -185,7 +185,7 @@
                 {
                     try {
 
-                        const response = await fetch('https://localhost:7049/api/auth/registraion', {
+                        const response = await fetch('https://localhost:7049/api/auth/registration', {
 
                             method: 'POST',
                             headers: {
