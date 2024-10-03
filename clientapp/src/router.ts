@@ -6,7 +6,7 @@ import Posts from './components/Posts.vue'
 
 const routes: RouteRecordRaw[] = [
     {
-        path: '/dashboard',
+        path: '/',
         name: 'Dashboard',
         component: Home 
     },
@@ -19,8 +19,8 @@ const routes: RouteRecordRaw[] = [
         component: Registration
     },
     {
-        path: '/',
-        name: 'Home',
+        path: '/posts/:postid',
+        name: 'Posts',
         component: Posts
     }
 ];

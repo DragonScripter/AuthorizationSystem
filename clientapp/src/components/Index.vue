@@ -1,13 +1,8 @@
 <template>
-    <div class="body-container">
-        <div class="container">
-            <div class="form-content">
-                <div class="Intro-content">
-                    <!--Intro content for main page -->
-                    Welcome to the main page
-                </div>
-                <!-- Posts-->
-            </div>
+    <div class="container">
+        <h1>Main</h1>
+        <div class="posts" v-for="post in posts" :key="post.id">
+
         </div>
     </div>
 </template>
