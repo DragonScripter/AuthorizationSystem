@@ -11,10 +11,10 @@
                             <a class="nav-link active" href="#">Home<span class="sr-only">(Current)</span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#"><Tags><span class="sr-only">(Tags)</span></a>
+                            <a class="nav-link" href="#">Tags</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">All<span class="sr-only">(All)<</span>></a>
+                            <a class="nav-link" href="#">All</a>
                         </li>
                     </ul>
                 </nav>
