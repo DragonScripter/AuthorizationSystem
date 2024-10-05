@@ -1,9 +1,23 @@
 <template>
     <div class="container">
         <div class="top-content">
+            <h1>Kudos</h1>
         </div>
         <div class="content">
             <div class="left-content">
+                <nav class="navbar navbar-light bg-light mb-4">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link active" href="#">Home<span class="sr-only">(Current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#"><Tags><span class="sr-only">(Tags)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">All<span class="sr-only">(All)<</span>></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div class="right-content">
             </div>
