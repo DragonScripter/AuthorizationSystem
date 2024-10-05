@@ -3,12 +3,17 @@ import Login from './components/Login.vue';
 import Registration from './components/Registration.vue'; 
 import Home from './components/Index.vue';
 import Posts from './components/Posts.vue'
+import Create from './components/Create.vue';
 
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'Dashboard',
         component: Home 
+    },
+    {
+        path: '/create',
+        component: Create
     },
     {
         path: '/login',
