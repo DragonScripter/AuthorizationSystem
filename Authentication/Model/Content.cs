@@ -23,7 +23,7 @@ namespace Authentication.Model
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
         public int AuthorId { get; set; }
-        public virtual required AppUser Author { get; set; }
+        public virtual AppUser? Author { get; set; }
 
         public bool isPublished { get; set; } = false;
 

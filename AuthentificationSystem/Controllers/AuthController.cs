@@ -84,6 +84,10 @@ namespace AuthentificationSystem.Controllers
                 return BadRequest();
             }
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userID))
+            {
+                return Unauthorized("User ID not found. Please make sure you are logged in.");
+            }
 
             content.AuthorId = int.Parse(userID!);
 
