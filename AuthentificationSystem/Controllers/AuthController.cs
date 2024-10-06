@@ -1,7 +1,9 @@
-﻿using Authentication.Model;
+﻿using Authentication.Data;
+using Authentication.Model;
 using AuthentificationSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AuthentificationSystem.Controllers
 {
@@ -11,11 +13,13 @@ namespace AuthentificationSystem.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<RoleEF> _roleManager;
+        private readonly AppDbContext _context;
 
-        public AuthController(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager) 
+        public AuthController(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager, AppDbContext appDbContext) 
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = appDbContext;
         }
 
         [HttpPost("login")]
@@ -71,6 +75,56 @@ namespace AuthentificationSystem.Controllers
             }
             return BadRequest(ModelState);
     
+        }
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] Content content) 
+        {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest();
+            }
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            content.AuthorId = int.Parse(userID!);
+
+            var user = await _userManager.FindByIdAsync(userID!);
+            if (user == null) 
+            {
+                return NotFound("User not found.");
+            }
+            var userRole = await _userManager.GetRolesAsync(user);
+            if (userRole.Contains("Contributor"))
+            {
+                
+                content.isPublished = false; 
+            }
+            else if (userRole.Contains("Author"))
+            {
+                content.isPublished = true; 
+            }
+            else
+            {
+                return Forbid(); 
+            }
+
+
+            _context.contents.Add(content);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetContentById(int id)
+        {
+           
+            var content = await _context.contents.FindAsync(id);
+
+            if (content == null)
+            {
+                return NotFound(); 
+            }
+
+            return Ok(content); 
         }
 
         [HttpGet]
