@@ -18,6 +18,15 @@
                 <input type="text"
                        v-model="formData.body"
                        id="body"
+                       placeholder="Body"
+                       class="input-box"
+                       required />
+            </div>
+            <div class="group">
+                <label for="summary"><strong>Summary</strong></label>
+                <input type="text"
+                       v-model="formData.description"
+                       id="body"
                        placeholder="Enter a description"
                        class="input-box"
                        required />
@@ -38,11 +47,12 @@
             const formData = reactive({
                 title: '',
                 body: '',
+                description: '',
                 errorMessage: ''
             });
 
             const handleSubmit = async () => {
-                if (formData.title === '' || formData.body === '')
+                if (formData.title === '' || formData.body === '' || formData.description === '')
                 {
                     formData.errorMessage = 'Please fill in all the fields.';
                 }
@@ -58,6 +68,7 @@
                             body: JSON.stringify({
                                 title: formData.title,
                                 body: formData.body,
+                                description: formData.description
                             }),
                         });
                         if (!response.ok) {
