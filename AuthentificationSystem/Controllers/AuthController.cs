@@ -87,25 +87,25 @@ namespace AuthentificationSystem.Controllers
 
             content.AuthorId = int.Parse(userID!);
 
-            var user = await _userManager.FindByIdAsync(userID!);
-            if (user == null) 
-            {
-                return NotFound("User not found.");
-            }
-            var userRole = await _userManager.GetRolesAsync(user);
-            if (userRole.Contains("Contributor"))
-            {
+            //var user = await _userManager.FindByIdAsync(userID!);
+            //if (user == null) 
+            //{
+            //    return NotFound("User not found.");
+            //}
+            //var userRole = await _userManager.GetRolesAsync(user);
+            //if (userRole.Contains("Contributor"))
+            //{
                 
-                content.isPublished = false; 
-            }
-            else if (userRole.Contains("Author"))
-            {
-                content.isPublished = true; 
-            }
-            else
-            {
-                return Forbid(); 
-            }
+            //    content.isPublished = false; 
+            //}
+            //else if (userRole.Contains("Author"))
+            //{
+            //    content.isPublished = true; 
+            //}
+            //else
+            //{
+            //    return Forbid(); 
+            //}
 
 
             _context.contents.Add(content);
