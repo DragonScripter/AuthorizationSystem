@@ -37,9 +37,11 @@
 
 <script lang="ts">
     import { defineComponent, reactive } from 'vue';
+    import { useRouter } from 'vue-router';
 
     export default defineComponent({
         setup() {
+            const router = useRouter();
             const formData = reactive({
                 username: '',
                 password: '',
@@ -69,7 +71,8 @@
 
                         const data = await response.json();
                         console.log('Login successful:', data);
-                        formData.errorMessage = 'Login Sucess!'; 
+                        formData.errorMessage = 'Login Sucess!';
+                        router.push(data.redirectUrl || '/');
                     } catch (error) {
                         formData.errorMessage = 'Login failed. Please try again.';
                         console.error(error);

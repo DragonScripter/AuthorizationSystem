@@ -23,26 +23,25 @@ namespace AuthentificationSystem.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel) 
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = await _userManager.FindByNameAsync(loginModel.Username);
-            if (user == null) 
+            if (user == null)
             {
                 return NotFound("Not Found");
             }
 
             var passwordCheck = await _userManager.CheckPasswordAsync(user, loginModel.Password);
-            if (!passwordCheck) 
+            if (!passwordCheck)
             {
                 return Unauthorized("Invalid login attempt");
             }
-
-            return Ok("Login sucess");
+            return Ok(new { message = "Login successful", redirectUrl = "/" });
 
         }
         [HttpPost("registration")]
