@@ -3,7 +3,12 @@ using Authentication.Model;
 using AuthentificationSystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace AuthentificationSystem.Controllers
 {
@@ -14,12 +19,14 @@ namespace AuthentificationSystem.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<RoleEF> _roleManager;
         private readonly AppDbContext _context;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager, AppDbContext appDbContext) 
+        public AuthController(UserManager<AppUser> userManager, RoleManager<RoleEF> roleManager, AppDbContext appDbContext, ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = appDbContext;
+            _logger = logger;
         }
 
         [HttpPost("login")]
@@ -31,17 +38,27 @@ namespace AuthentificationSystem.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(loginModel.Username);
-            if (user == null)
+            if (user == null || await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
-                return NotFound("Not Found");
-            }
-
-            var passwordCheck = await _userManager.CheckPasswordAsync(user, loginModel.Password);
-            if (!passwordCheck)
-            {
+                _logger.LogWarning("Invalid login attempt for user: {Username}", loginModel.Username);
                 return Unauthorized("Invalid login attempt");
             }
-            return Ok(new { message = "Login successful", redirectUrl = "/" });
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET")));
+            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                    issuer: "Server",
+                    audience: "User",
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(60),
+                    signingCredentials: credential
+                );
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), redirectUrl = "/" });
 
         }
         [HttpPost("registration")]
