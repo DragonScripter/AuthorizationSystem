@@ -37,8 +37,8 @@ namespace AuthentificationSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.FindByNameAsync(loginModel.Username);
-            if (user == null || await _userManager.CheckPasswordAsync(user, loginModel.Password))
+            var user = await _userManager.FindByNameAsync(loginModel.Username); 
+            if (user == null|| !await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
                 _logger.LogWarning("Invalid login attempt for user: {Username}", loginModel.Username);
                 return Unauthorized("Invalid login attempt");
