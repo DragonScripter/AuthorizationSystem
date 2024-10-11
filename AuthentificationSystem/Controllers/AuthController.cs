@@ -1,6 +1,7 @@
 ﻿using Authentication.Data;
 using Authentication.Model;
 using AuthentificationSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -38,6 +39,7 @@ namespace AuthentificationSystem.Controllers
             }
 
             var user = await _userManager.FindByNameAsync(loginModel.Username);
+            _logger.LogInformation($"User found: {user?.UserName}, ID: {user?.Id}");
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
                 _logger.LogWarning("Invalid login attempt for user: {Username}", loginModel.Username);
@@ -49,6 +51,10 @@ namespace AuthentificationSystem.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
+            foreach (var claim in claims)
+            {
+                _logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET")));
             var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -59,6 +65,8 @@ namespace AuthentificationSystem.Controllers
                     expires: DateTime.Now.AddMinutes(60),
                     signingCredentials: credential
                 );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            _logger.LogInformation($"Generated Token: {tokenString}");
             return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), redirectUrl = "/" });
 
         }
@@ -93,6 +101,7 @@ namespace AuthentificationSystem.Controllers
             return BadRequest(ModelState);
 
         }
+        
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] Content content)
         {
