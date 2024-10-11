@@ -100,11 +100,12 @@ namespace AuthentificationSystem.Controllers
             {
                 return BadRequest();
             }
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            _logger.LogInformation($"Number of claims: {User.Claims.Count()}");
             foreach (var claim in User.Claims)
             {
                 _logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
             }
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userID))
             {
                 return Unauthorized("User ID not found. Please make sure you are logged in.");

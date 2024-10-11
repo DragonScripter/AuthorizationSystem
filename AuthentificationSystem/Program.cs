@@ -107,6 +107,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseStaticFiles();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 
