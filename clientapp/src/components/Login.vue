@@ -70,7 +70,7 @@
                         }
 
                         const data = await response.json();
-                        console.log('Login successful:', data);
+                        sessionStorage.setItem('token', data.token);
                         formData.errorMessage = 'Login Sucess!';
                         router.push(data.redirectUrl || '/');
                     } catch (error) {

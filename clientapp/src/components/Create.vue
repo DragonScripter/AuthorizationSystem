@@ -58,6 +58,7 @@
                 }
                 else
                 {
+                    const token = sessionStorage.getItem('token');
                     try
                     {
                         const response = await fetch('https://localhost:7049/api/auth/create', {

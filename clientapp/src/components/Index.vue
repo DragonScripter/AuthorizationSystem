@@ -26,7 +26,7 @@
 </template>
 
 <script>
-   
+   //create logout button clear sesstion storage for logout and redirect to login
 </script>
 
 
