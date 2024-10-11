@@ -35,6 +35,7 @@ builder.Services.AddAuthentication(options =>
 
     };
 });
+
 void ConfigureServices(IServiceCollection services)
 {
     services.AddDbContext<AppDbContext>(options =>
@@ -46,6 +47,11 @@ void ConfigureServices(IServiceCollection services)
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+    services.AddLogging(config =>
+    {
+        config.AddConsole();
+        config.AddDebug();
+    });
 
     //adding the cors for frontend and backend to link
     services.AddCors(options =>

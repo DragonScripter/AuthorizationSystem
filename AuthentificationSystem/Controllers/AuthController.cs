@@ -37,8 +37,8 @@ namespace AuthentificationSystem.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.FindByNameAsync(loginModel.Username); 
-            if (user == null|| !await _userManager.CheckPasswordAsync(user, loginModel.Password))
+            var user = await _userManager.FindByNameAsync(loginModel.Username);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
                 _logger.LogWarning("Invalid login attempt for user: {Username}", loginModel.Username);
                 return Unauthorized("Invalid login attempt");
@@ -46,6 +46,7 @@ namespace AuthentificationSystem.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET")));
@@ -62,14 +63,14 @@ namespace AuthentificationSystem.Controllers
 
         }
         [HttpPost("registration")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel) 
+        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
             {
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
                 foreach (var error in errors)
                 {
-                    Console.WriteLine(error.ErrorMessage); 
+                    Console.WriteLine(error.ErrorMessage);
                 }
                 return BadRequest(ModelState);
             }
@@ -80,7 +81,7 @@ namespace AuthentificationSystem.Controllers
                 Email = registerModel.email,
             };
             var result = await _userManager.CreateAsync(user, registerModel.password);
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Contributor");
                 return Ok(new { Message = "User registered successfully." });
@@ -90,16 +91,20 @@ namespace AuthentificationSystem.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return BadRequest(ModelState);
-    
+
         }
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] Content content) 
+        public async Task<IActionResult> Create([FromBody] Content content)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            foreach (var claim in User.Claims)
+            {
+                _logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
             if (string.IsNullOrEmpty(userID))
             {
                 return Unauthorized("User ID not found. Please make sure you are logged in.");
@@ -108,17 +113,13 @@ namespace AuthentificationSystem.Controllers
             content.AuthorId = int.Parse(userID!);
 
             var user = await _userManager.FindByIdAsync(userID!);
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
             var userRole = await _userManager.GetRolesAsync(user);
             if (userRole.Contains("Contributor"))
             {
 
                 content.isPublished = false;
             }
-            else if (userRole.Contains("Author"))
+            else if (userRole.Contains("Author") || userRole.Contains("Admin"))
             {
                 content.isPublished = true;
             }

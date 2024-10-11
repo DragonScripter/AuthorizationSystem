@@ -65,6 +65,7 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${sessionStorage.getItem('token')}`
                             },
                             body: JSON.stringify({
                                 title: formData.title,
