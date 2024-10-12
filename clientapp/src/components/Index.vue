@@ -1,8 +1,8 @@
 <template>
+    <div class="top-content">
+        <h1>Kudos</h1>
+    </div>
     <div class="container">
-        <div class="top-content">
-            <h1>Kudos</h1>
-        </div>
         <div class="content">
             <div class="left-content">
                 <nav class="navbar navbar-light bg-light mb-4">
@@ -25,33 +25,59 @@
     </div>
 </template>
 
-<script>
-   //create logout button clear sesstion storage for logout and redirect to login
-</script>
-
-
-
 <style scoped>
-    .body-container {
-        background-color: #f0f0f0;
-        background-size: cover;
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
     }
 
     .container {
+        padding: 0;
         height: 100vh;
         width: 100vw;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column;
+    }
+
+    .top-content {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    .content {
+        margin-top: 60px;
+    }
+
+    .left-content {
+        position: absolute;
+        left: 12px;
+        top: 70px;
+        margin: 0;
+    }
+
+    .top-content {
+        padding: 10px 0;
+    }
+
+    .sep {
+        height: 2px;
+        background-color: #ccc;
+        width: 100%;
+        margin: 10px 0;
     }
 </style>
+
+
+
+
+
+
+
+
+
+<script>
+    //create logout button clear sesstion storage for logout and redirect to login
+</script>
