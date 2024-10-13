@@ -20,6 +20,7 @@
                 </nav>
             </div>
             <div class="right-content">
+                <h1>Recent Posts!</h1>
             </div>
         </div>
     </div>
@@ -49,13 +50,15 @@
 
     .content {
         margin-top: 60px;
+        display: flex; 
     }
 
     .left-content {
-        position: absolute;
-        left: 12px;
-        top: 70px;
-        margin: 0;
+        margin-right: 20px; 
+    }
+
+    .right-content {
+        flex-grow: 1;
     }
 
     .top-content {
